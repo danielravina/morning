@@ -1,5 +1,7 @@
-class App extends React.Component {
+import React from 'react'
+
+export default class App extends React.Component {
   render() {
-    <div>App</div>
+    return <h1>App</h1>
   }
 }
