@@ -1,7 +1,8 @@
 /* DayPicker styles */
 
 .DayPicker {
-  display: flex;
+  /*display: flex;*/
+  display: none;
   flex-wrap: wrap;
   justify-content: center;
   position: relative;
