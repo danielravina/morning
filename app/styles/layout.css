@@ -1,12 +1,9 @@
 body {
-  background: #FEFFD1
+  background: #FEFFD1;
+  font-family: 'Roboto', sans-serif !important;
 }
 
-header {
-  background: #E1F2F9;
-}
-
-.boards {
+#app {
   margin:auto;
   width: 97%;
 }
