@@ -1,3 +1,12 @@
 body {
   background: #FEFFD1
 }
+
+header {
+  background: #E1F2F9;
+}
+
+.boards {
+  margin:auto;
+  width: 97%;
+}

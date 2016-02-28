@@ -17,12 +17,20 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>Morning doc!</h1>
-        <DatePicker />
+        <header>
+          <h1>Morning doc!</h1>
+          <DatePicker />
+        </header>
         <div className="boards row">
-          <Board type="yesterday" className="col-sm-4"/>
-          <Board type="today" className="col-sm-4"/>
-          <Board type="blockers" className="col-sm-4"/>
+          <div className="col-sm-4">
+            <Board type="yesterday"/>
+          </div>
+          <div className="col-sm-4">
+            <Board type="today"/>
+          </div>
+          <div className="col-sm-4">
+            <Board type="blockers"/>
+          </div>
         </div>
         <NoteBox/>
       </div>
