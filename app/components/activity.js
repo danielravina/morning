@@ -11,25 +11,16 @@ import {
 
 import {
   removeActivity,
-  addActivity
+  addActivity,
+  jumpToNextActivity
 }  from './flux/actions'
 
 export default class Activity extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      edited: false
-    }
-  }
-
-  componentDidMount() {
-    if(this.props.isLast) {
-      this.focus()
-    }
-  }
 
   componentDidUpdate() {
+    console.log(this.props)
     if (this.props.isFocused){
+      console.log("so?????")
       this.focus()
     }
   }
@@ -60,15 +51,15 @@ export default class Activity extends React.Component {
     switch(e.keyCode) {
       case 13:
         if(this.props.isLast) {
-          e.preventDefault()
           addActivity(this.props.type)
+        } else {
+          jumpToNextActivity(this.props.activity)
         }
+        e.preventDefault()
         break
       case 8:
         if(this.isEmpty()) {
-          let activity = this.props.activity
-          activity.type = this.props.type
-          removeActivity(activity)
+          removeActivity(this.props.activity)
           e.preventDefault()
         }
     }

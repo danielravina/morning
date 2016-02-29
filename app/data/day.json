@@ -5,51 +5,61 @@
       {
         "id": 1,
         "text": "Team standup",
-        "order": 0
+        "order": 0,
+        "type": "yesterday"
+
       },
       {
         "id": 2,
         "text": "Cras justo odio, dapibus ac facilisis in, egestas eget quam.",
-        "order": 1
+        "order": 1,
+        "type": "yesterday"
       },
       {
         "id": 3,
         "text": "QA meetings",
-        "order": 2
+        "order": 2,
+        "type": "yesterday"
       },
       {
         "id": 4,
         "text": "E",
-        "order": 3
+        "order": 3,
+        "type": "yesterday"
       }
     ],
     "today": [
       {
         "id": 5,
         "text": "Fusce dapibus, tellus ac cursus commodo, tortor.",
-        "order": 0
+        "order": 0,
+        "type": "today"
       },
       {
         "id": 6,
         "text": "Cras mattis consectetur purus sit amet fermentum.",
-        "order": 1
+        "order": 1,
+        "type": "today"
       },
       {
         "id": 7,
         "text": "Duis mollis, est non commodo",
-        "order": 2
+        "order": 2,
+        "type": "today"
       },
       {
         "id": 8,
         "text": "Yeah!",
-        "order": 3
+        "order": 3,
+        "type": "today"
       }
     ],
     "blockers":[
       {
         "id": 9,
         "text": "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Maecenas faucibus mollis interdum.",
-        "order": 2
+        "order": 2,
+        "type": "blockers"
       }
     ]
   }

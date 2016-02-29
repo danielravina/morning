@@ -8,10 +8,6 @@ import {
 }  from './flux/actions'
 
 import {
-  FOCUS_ON_ACTIVITY
-} from './flux/enums'
-
-import {
   Card,
   CardHeader,
   Paper,
@@ -21,9 +17,6 @@ import {
 import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 
 export default class Board extends React.Component {
-  componentDidMount() {
-    this.startfluxListener()
-  }
 
   constructor() {
     super()
@@ -39,12 +32,14 @@ export default class Board extends React.Component {
           </CardHeader>
           <Paper zDepth={2}>
             {
-              this.props.activities.map((activity, i) =>
-                <Activity activity={activity}
+              this.props.activities.map((activity, i) => {
+                console.log(activity.id == this.state.focusedActivityId)
+                return (<Activity activity={activity}
                   key={i}
                   type={this.props.type}
-                  isFocused={this.state.focusedActivityId == activity.id}
+                  isFocused={this.shouldFocus(activity.id)}
                   isLast={i === this.props.activities.length - 1}/>)
+              })
             }
           </Paper>
         </Card>
@@ -59,12 +54,10 @@ export default class Board extends React.Component {
     addActivity(this.props.type)
   }
 
-   startfluxListener() {
-    dispatcher.listenTo(FOCUS_ON_ACTIVITY, this.focusOnActivity.bind(this));
-  }
-
-  focusOnActivity(activity) {
-    this.setState({focusedActivityId: activity.id})
+  shouldFocus(id) {
+    return (this.props.focusOn &&
+      this.props.focusOn.type == this.props.type &&
+        this.props.focusOn.id == activity.id)
   }
 }
 
