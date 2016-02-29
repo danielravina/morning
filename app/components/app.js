@@ -2,6 +2,8 @@ import React from 'react'
 import moment from 'moment'
 import Board from './board'
 import NoteBox from './noteBox'
+import enums from './flux/enums'
+import dispatcher from './flux/dispatcher'
 
 const injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
@@ -28,11 +30,13 @@ export default class App extends React.Component {
   }
 
   componentWillMount() {
+    this.startfluxListener()
     this.state = { activites: day.activites }
   }
 
-  _onAddActivity() {
-
+  addActivity() {
+    console.log("woopwoop")
+    // let currentActivities = this.state
   }
 
   render() {
@@ -69,6 +73,10 @@ export default class App extends React.Component {
 
   formatDate(date) {
     return moment(date).format(momentFormat)
+  }
+
+  startfluxListener() {
+    dispatcher.listenTo(enums.ADD_ACTIVITY, this.addActivity);
   }
 }
 

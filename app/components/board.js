@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import Activity from './activity'
+import actions from './flux/actions'
 
 import {
   Card,
@@ -23,19 +24,11 @@ export default class Board extends React.Component {
             { this.props.activites.map((activity, i) => <Activity activity={activity} key={i}/>) }
           </Paper>
         </Card>
-        <FloatingActionButton onClick={this.addActivity} style={style.addButton} backgroundColor={style.boardColors[this.props.type]} mini={true}>
+        <FloatingActionButton onClick={actions.addActivity} style={style.addButton} backgroundColor={style.boardColors[this.props.type]} mini={true}>
           <ContentAdd/>
         </FloatingActionButton>
       </div>
     )
-  }
-
-  removeActivity() {
-
-  }
-
-  addActivity(type) {
-
   }
 }
 
