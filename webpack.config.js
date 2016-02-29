@@ -26,9 +26,15 @@ module.exports = {
           presets: ['es2015', 'react']
         }
       },
-      { test: /\.css|.scss$/,
+      {
+        test: /\.css|.scss$/,
         loaders: ['style?root=.', 'css?root=.', 'sass?root=.']
       },
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
+      },
+      { test: /\.(png|woff|woff2|eot|ttf|svg|ttc)$/, loader: 'url-loader?limit=100000' }
     ]
   },
   resolve: {

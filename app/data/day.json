@@ -1,0 +1,56 @@
+{
+  "date": "2016-02-27",
+  "activites": {
+    "yesterday": [
+      {
+        "id": 1,
+        "text": "Team standup",
+        "order": 0
+      },
+      {
+        "id": 2,
+        "text": "https://aclgrc.atlassian.net/browse/RM-821 - investigating",
+        "order": 1
+      },
+      {
+        "id": 3,
+        "text": "QA meetings",
+        "order": 2
+      },
+      {
+        "id": 4,
+        "text": "https://aclgrc.atlassian.net/browse/PD-4894 - Ensure one project role per user",
+        "order": 3
+      }
+    ],
+    "today": [
+      {
+        "id": 5,
+        "text": "https://aclgrc.atlassian.net/browse/PD-6175 - Fail test rollforward activity log link",
+        "order": 0
+      },
+      {
+        "id": 6,
+        "text": "https://aclgrc.atlassian.net/browse/PD-6064 -Commented error",
+        "order": 1
+      },
+      {
+        "id": 7,
+        "text": "https://aclgrc.atlassian.net/browse/PD-6064 -Commented error",
+        "order": 2
+      },
+      {
+        "id": 8,
+        "text": "https://aclgrc.atlassian.net/browse/PD-6061 - Yeah!",
+        "order": 3
+      }
+    ],
+    "blockers":[
+      {
+        "id": 9,
+        "text": "Remove old bash CI scripts ​*needs code review*​ - https://aclgrc.atlassian.net/browse/PD-6170",
+        "order": 2
+      }
+    ]
+  }
+}
