@@ -3,6 +3,9 @@ import moment from 'moment'
 import Board from './board'
 import NoteBox from './noteBox'
 
+const injectTapEventPlugin = require("react-tap-event-plugin");
+injectTapEventPlugin();
+
 const day = require('../data/day')
 
 import {
@@ -10,6 +13,7 @@ import {
   Divider,
   TextField,
   Paper,
+  DatePicker
 } from 'material-ui'
 
 require('app/styles/vendor/bootstrap.min')
@@ -36,10 +40,13 @@ export default class App extends React.Component {
       <div>
         <header style={style.header}>
           <h1 style={style.pageTitle}>Morning, doc!</h1>
-          <h2 style={style.dateTitle}>
-            {moment().format(momentFormat)}
-            <FlatButton label="Chose date" style={style.changeButton}/>
-          </h2>
+          <DatePicker
+            container='inline'
+            defaultDate={new Date()}
+            formatDate={this.formatDate}
+            mode="landscape"
+            textFieldStyle={style.dateTitle}
+            />
         </header>
         <div className="boards row">
           <div className="col-sm-4">
@@ -55,6 +62,10 @@ export default class App extends React.Component {
       </div>
     )
   }
+
+  formatDate(date) {
+    return moment(date).format(momentFormat)
+  }
 }
 
 const style = {
@@ -66,11 +77,10 @@ const style = {
   },
 
   dateTitle: {
-    fontWeight: 'bold',
     margin:0,
     fontSize: 38,
-    display: 'inline-block',
     fontWeight: 100,
+    width: '100%'
   },
 
   header: {

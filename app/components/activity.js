@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDom from 'react-dom'
+import { linkTo } from './utils'
 
 import {
   TextField,
@@ -7,6 +8,12 @@ import {
 } from 'material-ui'
 
 export default class Activity extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      edited: false
+    }
+  }
   render() {
     return (
       <div key={this.props.activity.id} style={{position:'relative'}}>
@@ -19,46 +26,37 @@ export default class Activity extends React.Component {
           multiLine={true}
           fullWidth={true}/>
         <Divider/>
-        <div style={style.cover.wrapper} onClick={this.onClickA}>
-          <div style={style.cover.textHolder}>
-            {this.processText()}
-          </div>
-          <Divider/>
-        </div>
       </div>
     )
   }
-
-  processText() {
-    return this.props.activity.text
-  }
-
-  onClickA(e) {
-    console.log(e.currentTarget)
-    e.currentTarget.style.display = 'none'
-  }
 }
+// Move this to server-side
+//   translateJIRA() {
+//     let jiraMatches = this.props.activity.text.match(/(https:\/\/aclgrc\.atlassian\.net\/browse\/([A-Z]{2}-\d+))/)
+//     // console.log(jiraMatches)
+//     if (!jiraMatches) {
+//       return this.props.activity.text
+//     }
+//     let path   = jiraMatches[1]
+//     let ticket = jiraMatches[2]
+//     let link = linkTo(ticket, path)
+//     let newText = this.props.activity.text.replace(path, link)
+
+//     return newText;
+//   }
+
+//   coverClick(e) {
+//     this.setState({edited: true})
+//   }
+
+// }
 
 const style = {
   input: {
     paddingLeft: 20,
-    paddingRight: 20
-  },
-
-  cover: {
-    wrapper: {
-      position: 'absolute',
-      top: 0, right:0, left: 0, bottom: 0,
-      background: 'white'
-    },
-
-    textHolder: {
-      lineHeight: '24px',
-      fontSize: '16px',
-      paddingLeft: 20,
-      paddingRight: 20,
-      paddingTop: 12,
-      paddingBottom: 12
+    paddingRight: 20,
+    hidden: {
+      display: 'none'
     }
   }
 }

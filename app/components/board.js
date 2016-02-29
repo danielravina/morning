@@ -23,7 +23,7 @@ export default class Board extends React.Component {
             { this.props.activites.map((activity, i) => <Activity activity={activity} key={i}/>) }
           </Paper>
         </Card>
-        <FloatingActionButton style={style.addButton} backgroundColor={style.boardColors[this.props.type]} mini={true}>
+        <FloatingActionButton onClick={this.addActivity} style={style.addButton} backgroundColor={style.boardColors[this.props.type]} mini={true}>
           <ContentAdd/>
         </FloatingActionButton>
       </div>
