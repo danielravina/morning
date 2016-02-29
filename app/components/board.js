@@ -1,7 +1,15 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import Activity from './activity'
-import actions from './flux/actions'
+import dispatcher from './flux/dispatcher'
+
+import {
+  addActivity
+}  from './flux/actions'
+
+import {
+  FOCUS_ON_ACTIVITY
+} from './flux/enums'
 
 import {
   Card,
@@ -13,6 +21,15 @@ import {
 import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 
 export default class Board extends React.Component {
+  componentDidMount() {
+    this.startfluxListener()
+  }
+
+  constructor() {
+    super()
+    this.state = {}
+  }
+
   render() {
     return (
       <div style={style.board}>
@@ -21,14 +38,33 @@ export default class Board extends React.Component {
             <h3 style={style.header}>{this.props.type}</h3>
           </CardHeader>
           <Paper zDepth={2}>
-            { this.props.activites.map((activity, i) => <Activity activity={activity} key={i}/>) }
+            {
+              this.props.activities.map((activity, i) =>
+                <Activity activity={activity}
+                  key={i}
+                  type={this.props.type}
+                  isFocused={this.state.focusedActivityId == activity.id}
+                  isLast={i === this.props.activities.length - 1}/>)
+            }
           </Paper>
         </Card>
-        <FloatingActionButton onClick={actions.addActivity} style={style.addButton} backgroundColor={style.boardColors[this.props.type]} mini={true}>
+        <FloatingActionButton onClick={this._handleAddClick.bind(this)} style={style.addButton} backgroundColor={style.boardColors[this.props.type]} mini={true}>
           <ContentAdd/>
         </FloatingActionButton>
       </div>
     )
+  }
+
+  _handleAddClick() {
+    addActivity(this.props.type)
+  }
+
+   startfluxListener() {
+    dispatcher.listenTo(FOCUS_ON_ACTIVITY, this.focusOnActivity.bind(this));
+  }
+
+  focusOnActivity(activity) {
+    this.setState({focusedActivityId: activity.id})
   }
 }
 

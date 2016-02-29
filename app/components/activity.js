@@ -1,11 +1,18 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import { linkTo } from './utils'
+import $ from 'jquery'
+
+import putCursorAtEnd from '../vendor/putCursorAtEnd'
 
 import {
   TextField,
   Divider,
 } from 'material-ui'
+
+import {
+  removeActivity,
+  addActivity
+}  from './flux/actions'
 
 export default class Activity extends React.Component {
   constructor() {
@@ -14,20 +21,66 @@ export default class Activity extends React.Component {
       edited: false
     }
   }
+
+  componentDidMount() {
+    if(this.props.isLast) {
+      this.focus()
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.isFocused){
+      this.focus()
+    }
+  }
+
+  focus() {
+    let $input = $(this.domInput())
+    $input.focus().putCursorAtEnd()
+  }
+
   render() {
     return (
       <div key={this.props.activity.id} style={{position:'relative'}}>
         <TextField
-          ref={"activity-" + this.props.activity.id}
+          ref='input'
           defaultValue={this.props.activity.text}
           hintText="Activity"
           style={style.input}
           underlineShow={false}
           multiLine={true}
-          fullWidth={true}/>
+          fullWidth={true}
+          onKeyDown={this._handleTyping.bind(this)}/>
         <Divider/>
       </div>
     )
+  }
+
+  _handleTyping(e) {
+    switch(e.keyCode) {
+      case 13:
+        if(this.props.isLast) {
+          e.preventDefault()
+          addActivity(this.props.type)
+        }
+        break
+      case 8:
+        if(this.isEmpty()) {
+          let activity = this.props.activity
+          activity.type = this.props.type
+          removeActivity(activity)
+          e.preventDefault()
+        }
+    }
+  }
+
+  domInput() {
+    let $domNodde = $(ReactDom.findDOMNode(this.refs.input))
+    return $domNodde.find('textarea')[1]
+  }
+
+  isEmpty() {
+    return $(this.domInput()).val() === ""
   }
 }
 // Move this to server-side

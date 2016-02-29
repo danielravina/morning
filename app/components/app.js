@@ -2,11 +2,17 @@ import React from 'react'
 import moment from 'moment'
 import Board from './board'
 import NoteBox from './noteBox'
-import enums from './flux/enums'
 import dispatcher from './flux/dispatcher'
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
-const injectTapEventPlugin = require("react-tap-event-plugin");
-injectTapEventPlugin();
+import {
+  ADD_ACTIVITY,
+  REMOVE_ACTIVITY
+} from './flux/enums'
+
+import {
+  focusOnActivity
+} from './flux/actions'
 
 const day = require('../data/day')
 
@@ -27,16 +33,45 @@ export default class App extends React.Component {
 
   constructor() {
     super()
+    injectTapEventPlugin();
+    this.state = { activities: day.activities }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.startfluxListener()
-    this.state = { activites: day.activites }
   }
 
-  addActivity() {
-    console.log("woopwoop")
-    // let currentActivities = this.state
+  addActivity(type) {
+    let activities = this.state.activities
+
+    // TODO: Make a model
+    activities[type].push({
+      id: 1,
+      text: "",
+      order: 2
+    })
+
+    // Magic
+    this.setState({ activities:  activities })
+  }
+
+  removeActivity(activity) {
+    let activities = this.state.activities
+    let board = activities[activity.type]
+    const activityToRemove = board.find( (_activity) => _activity.id == activity.id )
+    const activityToRemoveIndex = board.indexOf(activityToRemove)
+    const activityToFocus = board[activityToRemoveIndex -1]
+
+    activities[activity.type].splice(board.indexOf(activityToRemove), 1)
+
+    // Magic
+    this.setState({ activities:  activities })
+
+    // HACK: http://stackoverflow.com/a/29423815/2364328
+    setTimeout(() => {
+      focusOnActivity(activityToFocus)
+    }, 1);
+
   }
 
   render() {
@@ -44,28 +79,20 @@ export default class App extends React.Component {
       <div>
         <header style={style.header}>
           <h1 style={style.pageTitle}>Morning, doc!</h1>
-          <div className="row">
-          <div className="col-sm-6 content-box">
-            <DatePicker
-              container='inline'
-              defaultDate={new Date()}
-              formatDate={this.formatDate}
-              mode="landscape"
-              textFieldStyle={style.dateTitle}
-              />
-            </div>
-          </div>
+          <DatePicker
+            container='inline'
+            defaultDate={new Date()}
+            formatDate={this.formatDate}
+            mode="landscape"
+            underlineShow={false}
+            textFieldStyle={style.dateTitle}
+            />
         </header>
-        <div className="boards row">
+        <div className="row">
           <div className="col-sm-4">
-            <Board type="yesterday" activites={this.state.activites.yesterday}/>
+            <Board type="yesterday" activities={this.state.activities.yesterday}/>
           </div>
-          <div className="col-sm-4">
-            <Board type="today" activites={this.state.activites.today}/>
-          </div>
-          <div className="col-sm-4">
-            <Board type="blockers" activites={this.state.activites.blockers}/>
-          </div>
+
         </div>
       </div>
     )
@@ -76,7 +103,8 @@ export default class App extends React.Component {
   }
 
   startfluxListener() {
-    dispatcher.listenTo(enums.ADD_ACTIVITY, this.addActivity);
+    dispatcher.listenTo(ADD_ACTIVITY, this.addActivity.bind(this));
+    dispatcher.listenTo(REMOVE_ACTIVITY, this.removeActivity.bind(this));
   }
 }
 
