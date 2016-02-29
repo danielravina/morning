@@ -40,13 +40,17 @@ export default class App extends React.Component {
       <div>
         <header style={style.header}>
           <h1 style={style.pageTitle}>Morning, doc!</h1>
-          <DatePicker
-            container='inline'
-            defaultDate={new Date()}
-            formatDate={this.formatDate}
-            mode="landscape"
-            textFieldStyle={style.dateTitle}
-            />
+          <div className="row">
+          <div className="col-sm-6 content-box">
+            <DatePicker
+              container='inline'
+              defaultDate={new Date()}
+              formatDate={this.formatDate}
+              mode="landscape"
+              textFieldStyle={style.dateTitle}
+              />
+            </div>
+          </div>
         </header>
         <div className="boards row">
           <div className="col-sm-4">

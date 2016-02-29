@@ -8,3 +8,7 @@ body {
   margin:auto;
   width: 97%;
 }
+
+.content-box {
+  * { box-sizing: content-box; }
+}
