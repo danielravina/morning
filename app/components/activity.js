@@ -11,8 +11,7 @@ import {
 
 import {
   removeActivity,
-  addActivity,
-  jumpToNextActivity
+  insertActivityAfter,
 }  from './flux/actions'
 
 const keys = {
@@ -25,11 +24,6 @@ export default class Activity extends React.Component {
     if (this.props.isFocused){
       this.focus()
     }
-  }
-
-  focus() {
-    let $input = $(this.domInput())
-    $input.focus().putCursorAtEnd()
   }
 
   render() {
@@ -52,11 +46,13 @@ export default class Activity extends React.Component {
   _handleTyping(e) {
     switch(e.keyCode) {
       case keys.ENTER:
-        addActivity(this.props.activity) // <-- After
+        if(!this.isEmpty()) {
+          insertActivityAfter(this.props.activity) // <-- After
+        }
         e.preventDefault()
         break
       case keys.BACKSPACE:
-        if(this.isEmpty()) {
+        if(this.isEmpty() && !this.props.isAlone) {
           removeActivity(this.props.activity)
           e.preventDefault()
         }
@@ -70,6 +66,11 @@ export default class Activity extends React.Component {
 
   isEmpty() {
     return $(this.domInput()).val() === ""
+  }
+
+  focus() {
+    let $input = $(this.domInput())
+    $input.focus().putCursorAtEnd()
   }
 }
 // Move this to server-side

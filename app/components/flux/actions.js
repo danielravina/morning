@@ -2,10 +2,10 @@ import dispatcher from './dispatcher'
 import enums      from './enums'
 
 module.exports = {
-  addActivity: (data) => {
+  insertActivityAfter: (activity) => {
     dispatcher.handleAction({
-      actionType: enums.ADD_ACTIVITY,
-      data: data
+      actionType: enums.INSERT_ACTIVITY_AFTER,
+      data: activity
     })
   },
 

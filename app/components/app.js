@@ -7,7 +7,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import rn from 'random-number'
 
 import {
-  ADD_ACTIVITY,
+  INSERT_ACTIVITY_AFTER,
   REMOVE_ACTIVITY,
   FOCUS_ON_ACTIVITY,
   JUMP_TO_NEXT_ACTIVITY
@@ -76,28 +76,25 @@ export default class App extends React.Component {
     this.setState({focusedActivity: activity})
   }
 
-  jumpToActivity(currentActivity) {
-
-  }
-
-  addActivity(before) {
+  insertActivityAfter(activity) {
     let activities = this.state.activities
-    let board = activities[before.type]
+    let board = activities[activity.type]
 
     // TODO: Make a model
     let newActivity = {
       id: rn({ min:  20, max:  1000, integer: true}),
       text: "",
       order: 2,
-      type: before.type // on the same board
+      type: activity.type // on the same board
     }
 
-    const beforeIndex = board.indexOf(before)
-    activities[before.type].splice(beforeIndex + 1, 0, newActivity)
+    const activityIndex = board.indexOf(activity)
+    activities[activity.type].splice(activityIndex + 1, 0, newActivity)
 
     // Magic
     this.setState({ activities:  activities })
 
+    // HACK to make two dispatcher actions in the same dispatcher call
     setTimeout(()=>{
       focusOnActivity(newActivity)
     },1)
@@ -108,14 +105,21 @@ export default class App extends React.Component {
     let board = activities[activity.type]
     const activityIndex = board.indexOf(activity)
 
-    const activityToFocus = board[activityIndex -1]
+    let indexToFocus = 0
+
+    if(activityIndex != 0) {
+      indexToFocus = activityIndex - 1
+    }
 
     // Remove activity from the board
     activities[activity.type].splice(board.indexOf(activity), 1)
 
+    let activityToFocus = board[indexToFocus]
+
     // Magic
     this.setState({ activities:  activities })
 
+    // HACK to make two dispatcher actions in the same dispatcher call
     setTimeout(()=>{
       focusOnActivity(activityToFocus)
     },1)
@@ -126,10 +130,9 @@ export default class App extends React.Component {
   }
 
   startfluxListener() {
-    dispatcher.listenTo(ADD_ACTIVITY, this.addActivity.bind(this));
+    dispatcher.listenTo(INSERT_ACTIVITY_AFTER, this.insertActivityAfter.bind(this));
     dispatcher.listenTo(REMOVE_ACTIVITY, this.removeActivity.bind(this));
     dispatcher.listenTo(FOCUS_ON_ACTIVITY, this.focusOnActivity.bind(this));
-    dispatcher.listenTo(JUMP_TO_NEXT_ACTIVITY, this.jumpToActivity.bind(this));
   }
 }
 

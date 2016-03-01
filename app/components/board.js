@@ -37,6 +37,7 @@ export default class Board extends React.Component {
                   key={i}
                   type={this.props.type}
                   isFocused={this.shouldFocus(activity.id)}
+                  isAlone={this.props.activities.length == 1}
                   isLast={i === this.props.activities.length - 1}/>)
             }
           </Paper>
