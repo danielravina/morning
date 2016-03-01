@@ -4,6 +4,7 @@ import Board from './board'
 import NoteBox from './noteBox'
 import dispatcher from './flux/dispatcher'
 import injectTapEventPlugin from 'react-tap-event-plugin'
+import rn from 'random-number'
 
 import {
   ADD_ACTIVITY,
@@ -16,8 +17,6 @@ import {
   focusOnActivity
 } from './flux/actions'
 
-const day = require('../data/day')
-
 import {
   FlatButton,
   Divider,
@@ -29,6 +28,7 @@ import {
 require('app/styles/vendor/bootstrap.min')
 require('app/styles/layout')
 
+const day = require('../data/day')
 const momentFormat = 'dddd, MMMM D YYYY'
 
 export default class App extends React.Component {
@@ -77,27 +77,35 @@ export default class App extends React.Component {
   }
 
   jumpToActivity(currentActivity) {
-    console.log(this.props)
+
   }
 
   addActivity(type) {
     let activities = this.state.activities
 
     // TODO: Make a model
-    activities[type].push({
-      id: 1,
+    let newActivity = {
+      id: rn({ min:  20, max:  1000, integer: true}),
       text: "",
-      order: 2
-    })
+      order: 2,
+      type: type
+    }
+
+    activities[type].push(newActivity)
 
     // Magic
     this.setState({ activities:  activities })
+
+    setTimeout(()=>{
+      focusOnActivity(newActivity)
+    },1)
   }
 
   removeActivity(activity) {
     let activities = this.state.activities
     let board = activities[activity.type]
-    const activityIndex = board.indexOf(activityIndex)
+    const activityIndex = board.indexOf(activity)
+
     const activityToFocus = board[activityIndex -1]
 
     // Remove activity from the board
@@ -105,8 +113,10 @@ export default class App extends React.Component {
 
     // Magic
     this.setState({ activities:  activities })
-    this.focusOnActivity(activityToFocus)
 
+    setTimeout(()=>{
+      focusOnActivity(activityToFocus)
+    },1)
   }
 
   formatDate(date) {

@@ -32,14 +32,12 @@ export default class Board extends React.Component {
           </CardHeader>
           <Paper zDepth={2}>
             {
-              this.props.activities.map((activity, i) => {
-                console.log(activity.id == this.state.focusedActivityId)
-                return (<Activity activity={activity}
+              this.props.activities.map((activity, i) =>
+                <Activity activity={activity}
                   key={i}
                   type={this.props.type}
                   isFocused={this.shouldFocus(activity.id)}
                   isLast={i === this.props.activities.length - 1}/>)
-              })
             }
           </Paper>
         </Card>
@@ -57,7 +55,7 @@ export default class Board extends React.Component {
   shouldFocus(id) {
     return (this.props.focusOn &&
       this.props.focusOn.type == this.props.type &&
-        this.props.focusOn.id == activity.id)
+        this.props.focusOn.id == id)
   }
 }
 

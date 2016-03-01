@@ -15,12 +15,15 @@ import {
   jumpToNextActivity
 }  from './flux/actions'
 
+const keys = {
+  ENTER: 13,
+  BACKSPACE: 8
+}
 export default class Activity extends React.Component {
 
   componentDidUpdate() {
-    console.log(this.props)
     if (this.props.isFocused){
-      console.log("so?????")
+      console.log("so?????", this.props.activity)
       this.focus()
     }
   }
@@ -49,7 +52,7 @@ export default class Activity extends React.Component {
 
   _handleTyping(e) {
     switch(e.keyCode) {
-      case 13:
+      case keys.ENTER:
         if(this.props.isLast) {
           addActivity(this.props.type)
         } else {
@@ -57,7 +60,7 @@ export default class Activity extends React.Component {
         }
         e.preventDefault()
         break
-      case 8:
+      case keys.BACKSPACE:
         if(this.isEmpty()) {
           removeActivity(this.props.activity)
           e.preventDefault()
