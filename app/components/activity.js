@@ -23,7 +23,6 @@ export default class Activity extends React.Component {
 
   componentDidUpdate() {
     if (this.props.isFocused){
-      console.log("so?????", this.props.activity)
       this.focus()
     }
   }
@@ -53,11 +52,7 @@ export default class Activity extends React.Component {
   _handleTyping(e) {
     switch(e.keyCode) {
       case keys.ENTER:
-        if(this.props.isLast) {
-          addActivity(this.props.type)
-        } else {
-          jumpToNextActivity(this.props.activity)
-        }
+        addActivity(this.props.activity) // <-- After
         e.preventDefault()
         break
       case keys.BACKSPACE:

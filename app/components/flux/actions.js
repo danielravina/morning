@@ -21,14 +21,5 @@ module.exports = {
       actionType: enums.FOCUS_ON_ACTIVITY,
       data: activity
     })
-  },
-
-  jumpToNextActivity: (activity) => {
-    dispatcher.handleAction({
-      actionType: enums.JUMP_TO_NEXT_ACTIVITY,
-      data: activity
-    })
   }
-
-
 }

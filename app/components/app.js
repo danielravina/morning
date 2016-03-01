@@ -80,18 +80,20 @@ export default class App extends React.Component {
 
   }
 
-  addActivity(type) {
+  addActivity(before) {
     let activities = this.state.activities
+    let board = activities[before.type]
 
     // TODO: Make a model
     let newActivity = {
       id: rn({ min:  20, max:  1000, integer: true}),
       text: "",
       order: 2,
-      type: type
+      type: before.type // on the same board
     }
 
-    activities[type].push(newActivity)
+    const beforeIndex = board.indexOf(before)
+    activities[before.type].splice(beforeIndex + 1, 0, newActivity)
 
     // Magic
     this.setState({ activities:  activities })
