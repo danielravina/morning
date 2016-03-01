@@ -19,16 +19,32 @@ const keys = {
   BACKSPACE: 8
 }
 export default class Activity extends React.Component {
+  constructor() {
+    super()
+    this.state = { isFocused: false }
+  }
 
   componentDidUpdate() {
-    if (this.props.isFocused){
+    if (this.props.forceFocus){
       this.focus()
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    // Investigate a bug
+    console.log(nextState)
+    return true;
+  }
+
+  componentWillUnmount() {
+    let $textarea = $(this.textarea())
+    $textarea.off()
+  }
+
   render() {
     return (
-      <div key={this.props.activity.id} style={{position:'relative'}}>
+      <div className='all-transition'
+           style={this.state.isFocused ? style.wrapper.focus : style.wrapper.blur}>
         <TextField
           ref='input'
           defaultValue={this.props.activity.text}
@@ -37,17 +53,27 @@ export default class Activity extends React.Component {
           underlineShow={false}
           multiLine={true}
           fullWidth={true}
+          onFocus={this._handleFocus.bind(this)}
+          onBlur={this._handleBlur.bind(this)}
           onKeyDown={this._handleTyping.bind(this)}/>
         <Divider/>
       </div>
     )
   }
 
+  _handleFocus() {
+    this.setState({isFocused: true})
+  }
+
+  _handleBlur() {
+    this.setState({isFocused: false})
+  }
+
   _handleTyping(e) {
     switch(e.keyCode) {
       case keys.ENTER:
         if(!this.isEmpty()) {
-          insertActivityAfter(this.props.activity) // <-- After
+          insertActivityAfter(this.props.activity)
         }
         e.preventDefault()
         break
@@ -59,18 +85,18 @@ export default class Activity extends React.Component {
     }
   }
 
-  domInput() {
-    let $domNodde = $(ReactDom.findDOMNode(this.refs.input))
-    return $domNodde.find('textarea')[1]
+  textarea() {
+    let $textarea = $(ReactDom.findDOMNode(this.refs.input))
+    return $textarea.find('textarea')[1]
   }
 
   isEmpty() {
-    return $(this.domInput()).val() === ""
+    return $(this.textarea()).val() === ""
   }
 
   focus() {
-    let $input = $(this.domInput())
-    $input.focus().putCursorAtEnd()
+    let $textarea = $(this.textarea())
+    $textarea.focus().putCursorAtEnd()
   }
 }
 // Move this to server-side
@@ -95,6 +121,14 @@ export default class Activity extends React.Component {
 // }
 
 const style = {
+  wrapper: {
+    focus: {
+      background: 'rgba(0,0,0,0.05)'
+    },
+    blur: {
+      background: 'white'
+    }
+  },
   input: {
     paddingLeft: 20,
     paddingRight: 20,

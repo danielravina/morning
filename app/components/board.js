@@ -36,15 +36,12 @@ export default class Board extends React.Component {
                 <Activity activity={activity}
                   key={i}
                   type={this.props.type}
-                  isFocused={this.shouldFocus(activity.id)}
+                  forceFocus={this.shouldFocus(activity.id)}
                   isAlone={this.props.activities.length == 1}
                   isLast={i === this.props.activities.length - 1}/>)
             }
           </Paper>
         </Card>
-        <FloatingActionButton onClick={this._handleAddClick.bind(this)} style={style.addButton} backgroundColor={style.boardColors[this.props.type]} mini={true}>
-          <ContentAdd/>
-        </FloatingActionButton>
       </div>
     )
   }

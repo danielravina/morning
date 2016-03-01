@@ -12,3 +12,8 @@ body {
 .content-box {
   * { box-sizing: content-box; }
 }
+
+
+.all-transition {
+  transition: all .3s ease
+}
