@@ -18,6 +18,7 @@ const keys = {
   ENTER: 13,
   BACKSPACE: 8
 }
+
 export default class Activity extends React.Component {
   constructor() {
     super()
@@ -30,21 +31,9 @@ export default class Activity extends React.Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // Investigate a bug
-    console.log(nextState)
-    return true;
-  }
-
-  componentWillUnmount() {
-    let $textarea = $(this.textarea())
-    $textarea.off()
-  }
-
   render() {
     return (
-      <div className='all-transition'
-           style={this.state.isFocused ? style.wrapper.focus : style.wrapper.blur}>
+      <div className='all-transition' key={this.props.activity.id} style={this.state.isFocused ? style.wrapper.focus : style.wrapper.blur}>
         <TextField
           ref='input'
           defaultValue={this.props.activity.text}
@@ -85,18 +74,18 @@ export default class Activity extends React.Component {
     }
   }
 
-  textarea() {
-    let $textarea = $(ReactDom.findDOMNode(this.refs.input))
-    return $textarea.find('textarea')[1]
+  domInput() {
+    let $domNodde = $(ReactDom.findDOMNode(this.refs.input))
+    return $domNodde.find('textarea')[1]
   }
 
   isEmpty() {
-    return $(this.textarea()).val() === ""
+    return $(this.domInput()).val() === ""
   }
 
   focus() {
-    let $textarea = $(this.textarea())
-    $textarea.focus().putCursorAtEnd()
+    let $input = $(this.domInput())
+    $input.focus().putCursorAtEnd()
   }
 }
 // Move this to server-side

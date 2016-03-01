@@ -49,6 +49,7 @@ export default class App extends React.Component {
         <header style={style.header}>
           <h1 style={style.pageTitle}>Morning, doc!</h1>
           <DatePicker
+            maxDate={new Date()}
             container='inline'
             defaultDate={new Date()}
             formatDate={this.formatDate}

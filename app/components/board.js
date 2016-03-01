@@ -30,17 +30,15 @@ export default class Board extends React.Component {
           <CardHeader style={{background: style.boardColors[this.props.type]}}>
             <h3 style={style.header}>{this.props.type}</h3>
           </CardHeader>
-          <Paper zDepth={2}>
-            {
-              this.props.activities.map((activity, i) =>
-                <Activity activity={activity}
-                  key={i}
-                  type={this.props.type}
-                  forceFocus={this.shouldFocus(activity.id)}
-                  isAlone={this.props.activities.length == 1}
-                  isLast={i === this.props.activities.length - 1}/>)
-            }
-          </Paper>
+          {
+            this.props.activities.map((activity, i) =>
+              <Activity activity={activity}
+                key={i}
+                type={this.props.type}
+                forceFocus={this.shouldFocus(activity.id)}
+                isAlone={this.props.activities.length == 1}
+                isLast={i === this.props.activities.length - 1}/>)
+          }
         </Card>
       </div>
     )
